@@ -1,23 +1,21 @@
 #include <iostream>
 #include <string>
-#include <vector>
-#include </usr/local/include/mpi.h>
+#include <mpi.h>
 
 class remote{};
 class receiver{};
 
 class DummyData{
   public:
-    DummyData(std::string i_msg, std::vector<int> i_vct): msg(i_msg), content(i_vct){}
+    DummyData(std::string i_msg, int i_vct): msg(i_msg), content(i_vct){}
     std::string getMessage(){return msg;}
-    void printVector(){
-      std::cout << "Vectorcontents";
-      for (std::vector<int>::iterator it = content.begin(); it != content.end(); ++it)std::cout << ' ' << *it;
-      std::cout << std::endl;
+    void printContent(){
+      std::cout << "Contents ";
+      std::cout << content << std::endl;
     }
   private:
     std::string msg;
-    std::vector<int> content;
+    int content;
 };
 
 int main(){
@@ -32,13 +30,13 @@ int main(){
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
   // Dummy code
-  DummyData data{"Hello world!", {1,2,3}};
+  DummyData data = DummyData("Hello world!", 5);
   if (world_rank == 0) {
       MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
   } else if (world_rank == 1) {
       MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
       std::cout << "Process 1 received message(" << data.getMessage() << ") from process 0\n";
-      data.printVector();
+      data.printContent();
   }
 
   // Finalize the MPI environment.
