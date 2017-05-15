@@ -3,26 +3,15 @@
 #include <mpi.h>
 #include "remoteDummy.h"
 #include "receiverDummy.h"
-
-class DummyData{
-  public:
-    DummyData(std::string i_msg, int i_vct): msg(i_msg), content(i_vct){}
-    std::string getMessage(){return msg;}
-    void printContent(){
-      std::cout << "Contents ";
-      std::cout << content << std::endl;
-    }
-  private:
-    std::string msg;
-    int content;
-};
+#include "dataDummy.h"
 
 int main(){
-  std::cout << "MPI prototype\n";
+  std::cout << "MPI prototype per process\n";
   // Initialize the MPI environment
   MPI_Init(NULL, NULL);
 
-  receiverDummy a;
+  receiverDummy sender{0};
+  remoteDummy remote{1};
   // Find out rank, size
   int world_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -30,11 +19,13 @@ int main(){
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
   // Dummy code
-  DummyData data = DummyData("Hello world!", 5);
+  int tag = 1;
+  dataDummy data = dataDummy("Hello world!", 5);
   if (world_rank == 0) {
-      MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+      MPI_Send(&data, 1, MPI_INT, remote.getId(), tag, MPI_COMM_WORLD);
   } else if (world_rank == 1) {
-      MPI_Recv(&data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+      // MPI_Recv(&data, 1, MPI_INT, sender.getId(), tag, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+      sender.receiveData(data, sender.getId(), tag);
       std::cout << "Process 1 received message(" << data.getMessage() << ") from process 0\n";
       data.printContent();
   }
