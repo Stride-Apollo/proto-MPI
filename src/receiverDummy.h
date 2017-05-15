@@ -5,8 +5,9 @@ class receiverDummy{
   public:
     receiverDummy(uint id): m_id(id){};
     ~receiverDummy() = default;
-    void receiveData(dataDummy data, const int source, const int tag){
-      MPI_Recv(&data, 1, MPI_INT, source, tag, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    template<class T>
+    void receiveData(T data, const int maxOccurrences,const int source, int tag, MPI_Status status){
+      MPI_Recv(&data, maxOccurrences, MPI_INT, source, tag, MPI_COMM_WORLD, &status);
     }
     uint getId() const {return m_id;}
   private:
