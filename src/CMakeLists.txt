@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(MPI_test)
-
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-unknown-pragmas -Wno-array-bounds -Wno-unused-private-field" )
 add_executable(MPI_test main.cpp)
-set (CMAKE_CXX_STANDARD 11)
-add_compile_options(-std=c++11)
 
 # Require MPI for this project:
 find_package(MPI REQUIRED)

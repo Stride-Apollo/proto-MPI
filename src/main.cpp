@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
 #include <mpi.h>
-
-class remote{};
-class receiver{};
+#include "remoteDummy.h"
+#include "receiverDummy.h"
 
 class DummyData{
   public:
@@ -23,6 +22,7 @@ int main(){
   // Initialize the MPI environment
   MPI_Init(NULL, NULL);
 
+  receiverDummy a;
   // Find out rank, size
   int world_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
