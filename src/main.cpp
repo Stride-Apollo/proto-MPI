@@ -22,9 +22,8 @@ int main(){
   int tag = 1;
   dataDummy data = dataDummy("Hello world!", 5);
   if (world_rank == 0) {
-      MPI_Send(&data, 1, MPI_INT, remote.getId(), tag, MPI_COMM_WORLD);
+      remote.sendData(data, remote.getId(), tag);
   } else if (world_rank == 1) {
-      // MPI_Recv(&data, 1, MPI_INT, sender.getId(), tag, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
       sender.receiveData(data, sender.getId(), tag);
       std::cout << "Process 1 received message(" << data.getMessage() << ") from process 0\n";
       data.printContent();
