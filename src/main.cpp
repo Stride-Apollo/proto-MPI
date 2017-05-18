@@ -28,15 +28,23 @@ int main(){
   // When a process requests a message with a certain tag number,
   // messages with different tags will be buffered by the network until the process is ready for them.
   int tag = 1;
+  int times = 1;
   dataDummy data = dataDummy("Hello world!", 5);
 
   if (world_rank == remote.getId()) {
     // Remote will send vector v, 1 time, to the receiver with a specific tag
-    remote.sendData(&v, 1, receiver.getId(), tag);
-  } else if (world_rank == 1) {
-    // Receiver will receiva vector v, 1 time, from remote with a specific tag
-    receiver.receiveData(&v, 1, remote.getId(), tag);
-    std::cout << "Process 1 received message " << data.getMessage() << " from process 0\n";
+    remote.sendData(&v, times, receiver.getId(), tag);
+  } else if (world_rank == receiver.getId()) {
+    // Receiver will receive a vector v, 1 time, from remote with a specific tag
+    receiver.receiveData(&v, times, remote.getId(), tag);
+  }
+
+  // New message tag
+  tag = 2;
+  if (world_rank == receiver.getId()){
+    receiver.respond(times, remote.getId(), 2);
+  }else if(world_rank == remote.getId()){
+    remote.receiveData(receiver.getData(), times, receiver.getId(), tag);
   }
 
   // Finalize the MPI environment.
