@@ -1,2 +1,5 @@
-proc1
-proc2
+# This file should contain the information about the other systems.
+# The amount of cores used is specified after :
+# See http://mpitutorial.com/tutorials/mpi-hello-world/ for more information
+proc1:2
+proc2:2
