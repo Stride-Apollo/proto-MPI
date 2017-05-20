@@ -2,8 +2,8 @@
 #include <string>
 #include <mpi.h>
 #include <vector>
-#include "remoteDummy.h"
-#include "receiverDummy.h"
+#include "remoteSimulatorReceiver.h"
+#include "remoteSimulatorSender.h"
 #include "dataDummy.h"
 
 // Go to http://mpitutorial.com/tutorials/ for more information
@@ -13,8 +13,8 @@ int main(){
 
   // Set up remote and receiver
   std::vector<int> v = {1,2,3,4};
-  remoteDummy remote{0};
-  receiverDummy receiver{1};
+  remoteSimulatorSender remote{0};
+  remoteSimulatorReceiver receiver{1};
 
   // Initialize the MPI environment
   MPI_Init(NULL, NULL);

@@ -6,10 +6,10 @@
 
 // TODO Inherits of AsyncSimulator
 
-class remoteDummy{
+class remoteSimulatorSender{
   public:
-    remoteDummy(uint id):m_id(id){};
-    ~remoteDummy() = default;
+    remoteSimulatorSender(uint id):m_id(id){};
+    ~remoteSimulatorSender() = default;
     template<class T>
     void sendData(T data, const int times, const int destination, int tag){
       MPI_Send(&data, times, MPI_INT, destination, tag, MPI_COMM_WORLD);

@@ -6,10 +6,10 @@
 
 #include "dataDummy.h"
 
-class receiverDummy{
+class remoteSimulatorReceiver{
   public:
-    receiverDummy(uint id): m_id(id), m_data("MESSAGE RECEIVED"){};
-    ~receiverDummy() = default;
+    remoteSimulatorReceiver(uint id): m_id(id), m_data("MESSAGE RECEIVED"){};
+    ~remoteSimulatorReceiver() = default;
     template<class T>
     void receiveData(T data, const int maxOccurrences,const int source, int tag){
       MPI_Recv(&data, maxOccurrences, MPI_INT, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
