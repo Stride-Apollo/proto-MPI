@@ -2,9 +2,9 @@
 #include <string>
 #include <mpi.h>
 #include <vector>
-#include "remoteSimulatorReceiver.h"
-#include "remoteSimulatorSender.h"
-#include "dataDummy.h"
+#include "RemoteSimulatorReceiver.h"
+#include "RemoteSimulatorSender.h"
+#include "DataDummy.h"
 
 // Go to http://mpitutorial.com/tutorials/ for more information
 
@@ -13,9 +13,9 @@ int main(){
 
   // Set up remote and receiver
   std::vector<int> v = {1,2,3,4};
-  remoteSimulatorSender remote;
+  RemoteSimulatorSender remote;
   remote.setId(0);
-  remoteSimulatorReceiver receiver{1};
+  RemoteSimulatorReceiver receiver{1};
 
   // Initialize the MPI environment
   MPI_Init(NULL, NULL);
@@ -34,7 +34,7 @@ int main(){
   uint people = 5;
   std::string district = "District 13";
   std::string facility = "Facility 1";
-  dataDummy data = dataDummy("Hello world!", 5);
+  DataDummy data = DataDummy("Hello world!", 5);
 
   if (world_rank == remote.getId()) {
     // Send travellers to the receiver

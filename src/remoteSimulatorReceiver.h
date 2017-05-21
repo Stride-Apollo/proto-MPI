@@ -5,13 +5,13 @@
 #include <iostream>
 #include <vector>
 
-#include "dataDummy.h"
+#include "DataDummy.h"
 class TravellerType;
 
-class remoteSimulatorReceiver{
+class RemoteSimulatorReceiver{
   public:
-    remoteSimulatorReceiver(uint id): m_id(id){};
-    ~remoteSimulatorReceiver() = default;
+    RemoteSimulatorReceiver(uint id): m_id(id){};
+    ~RemoteSimulatorReceiver() = default;
 
     // This should receive the travellers sent by sendTravellers (the remoteSimulatorSender)
     // And have tag 1 (defined in remoteSimulatorSender)
