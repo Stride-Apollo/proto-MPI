@@ -33,26 +33,16 @@ int main(){
   uint days = 3;
   uint people = 5;
   std::string district = "District 13";
-  std::string facility = "Science";
+  std::string facility = "Facility 1";
   dataDummy data = dataDummy("Hello world!", 5);
 
   if (world_rank == remote.getId()) {
     // Send travellers to the receiver
     remote.sendTravellersAway(people, days,receiver.getId(), district, facility);
   } else if (world_rank == receiver.getId()) {
-    // Receiver will receive a vector v, 1 time, from remote with a specific tag
-    // receiver.receiveData(&v, times, remote.getId(), tag);
     // TODO replace v with real travellers
     receiver.hostTravellers(v, days, district, facility);
   }
-
-  // New message tag
-  // tag = 2;
-  // if (world_rank == receiver.getId()){
-  //   receiver.respond(times, remote.getId(), 2);
-  // }else if(world_rank == remote.getId()){
-  //   remote.receiveData(receiver.getData(), times, receiver.getId(), tag);
-  // }
 
   // Finalize the MPI environment.
   MPI_Finalize();

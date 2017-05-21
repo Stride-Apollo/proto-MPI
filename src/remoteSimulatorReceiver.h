@@ -26,6 +26,7 @@ class remoteSimulatorReceiver{
     bool hostTravellers(T travellers, uint days, std::string destination_district, std::string destination_facility){
       // TODO how do i know the source? momentarily hardcoded with 0
       MPI_Recv(&travellers, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      std::cout << "Message @ receiver side: \n";
       std::cout << "Received travellers TODO for " << days << " for " << destination_district << " and facility " << destination_facility << std::endl;
       return true;
     };
