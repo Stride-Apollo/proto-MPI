@@ -13,7 +13,8 @@ int main(){
 
   // Set up remote and receiver
   std::vector<int> v = {1,2,3,4};
-  remoteSimulatorSender remote{0};
+  remoteSimulatorSender remote;
+  remote.setId(0);
   remoteSimulatorReceiver receiver{1};
 
   // Initialize the MPI environment
@@ -29,23 +30,29 @@ int main(){
   // messages with different tags will be buffered by the network until the process is ready for them.
   int tag = 1;
   int times = 1;
+  uint days = 3;
+  uint people = 5;
+  std::string district = "District 13";
+  std::string facility = "Science";
   dataDummy data = dataDummy("Hello world!", 5);
 
   if (world_rank == remote.getId()) {
-    // Remote will send vector v, 1 time, to the receiver with a specific tag
-    remote.sendData(&v, times, receiver.getId(), tag);
+    // Send travellers to the receiver
+    remote.sendTravellersAway(people, days,receiver.getId(), district, facility);
   } else if (world_rank == receiver.getId()) {
     // Receiver will receive a vector v, 1 time, from remote with a specific tag
-    receiver.receiveData(&v, times, remote.getId(), tag);
+    // receiver.receiveData(&v, times, remote.getId(), tag);
+    // TODO replace v with real travellers
+    receiver.hostTravellers(v, days, district, facility);
   }
 
   // New message tag
-  tag = 2;
-  if (world_rank == receiver.getId()){
-    receiver.respond(times, remote.getId(), 2);
-  }else if(world_rank == remote.getId()){
-    remote.receiveData(receiver.getData(), times, receiver.getId(), tag);
-  }
+  // tag = 2;
+  // if (world_rank == receiver.getId()){
+  //   receiver.respond(times, remote.getId(), 2);
+  // }else if(world_rank == remote.getId()){
+  //   remote.receiveData(receiver.getData(), times, receiver.getId(), tag);
+  // }
 
   // Finalize the MPI environment.
   MPI_Finalize();

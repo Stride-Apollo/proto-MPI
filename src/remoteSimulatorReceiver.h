@@ -3,12 +3,14 @@
 #include <mpi.h>
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include "dataDummy.h"
+class TravellerType;
 
 class remoteSimulatorReceiver{
   public:
-    remoteSimulatorReceiver(uint id): m_id(id), m_data("MESSAGE RECEIVED"){};
+    remoteSimulatorReceiver(uint id): m_id(id){};
     ~remoteSimulatorReceiver() = default;
 
     // This should receive the travellers sent by sendTravellers (the remoteSimulatorSender)
@@ -19,14 +21,16 @@ class remoteSimulatorReceiver{
       std::cout << "ID("<< m_id << ") Received message " << data << " from source " << source << " with tag " << tag << ".\n";
     }
 
-    // Obsolete, not longer necessary, but keep it for examplatory reasons
-    void respond(const int maxOccurrences, const int dest, int tag){
-      MPI_Send(&m_data, maxOccurrences, MPI_INT, dest, tag, MPI_COMM_WORLD);
-      std::cout << "ID("<< m_id << ") Response message " << m_data << " to destination " << dest << " with tag " << tag << ".\n";
-    }
+
+    template <class T>
+    bool hostTravellers(T travellers, uint days, std::string destination_district, std::string destination_facility){
+      // TODO how do i know the source? momentarily hardcoded with 0
+      MPI_Recv(&travellers, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      std::cout << "Received travellers TODO for " << days << " for " << destination_district << " and facility " << destination_facility << std::endl;
+      return true;
+    };
+
     uint getId() const {return m_id;}
-    std::string getData() const {return m_data;}
   private:
     uint m_id;
-    std::string m_data;
 };
