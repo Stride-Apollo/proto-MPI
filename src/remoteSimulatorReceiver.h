@@ -15,13 +15,6 @@ class remoteSimulatorReceiver{
 
     // This should receive the travellers sent by sendTravellers (the remoteSimulatorSender)
     // And have tag 1 (defined in remoteSimulatorSender)
-    template<class T>
-    void receiveData(T data, const int maxOccurrences,const int source, int tag){
-      MPI_Recv(&data, maxOccurrences, MPI_INT, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      std::cout << "ID("<< m_id << ") Received message " << data << " from source " << source << " with tag " << tag << ".\n";
-    }
-
-
     template <class T>
     bool hostTravellers(T travellers, uint days, std::string destination_district, std::string destination_facility){
       MPI_Recv(&travellers, 1, MPI_INT, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
